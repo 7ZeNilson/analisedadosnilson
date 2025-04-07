@@ -156,9 +156,7 @@ Através desta análise, consegui visualizar a distribuição dos clientes em re
 
 ![Distribuição da Recência](https://github.com/7ZeNilson/analisedadosnilson/blob/main/img/frequencia_valor_monetario.png?raw=true)
 
-![Frequência e Valor Monetário](https://github.com/7ZeNilson/analisedadosnilson/blob/main/img/Recencia_de_Clientes.png)
-
-
+![Image](https://github.com/user-attachments/assets/6a0b2985-51f8-4d20-a2d4-cc5dc29cb46a)
 
 
 Os próximos passos lógicos para este projeto seriam:
