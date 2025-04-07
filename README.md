@@ -154,9 +154,9 @@ Os boxplots forneceram informações sobre a mediana, quartis e possíveis outli
 📊 Resultados e Próximos Passos
 Através desta análise, consegui visualizar a distribuição dos clientes em relação à recência de compra, a relação entre a frequência e o valor monetário de suas compras, e a distribuição geral de cada uma das métricas RFM.
 
-![frequencia_valor_monetario](https://github.com/user-attachments/assets/ea997b9b-e468-4f23-8ace-37a38bd83392)
+![Frequencia Valor Monetarios](imagens\frequencia_valor_monetario.png)
 
-![Distribuição_da_Recencia_de_Clientes](https://github.com/user-attachments/assets/c23d9e0a-47a9-4704-aa68-1e7e1c4dc292)
+![Distribuição Recencia Clientes](C:\Users\José Nilson\Documents\Python Scripts\imagens\Recencia_de_Clientes.png)
 
 
 Os próximos passos lógicos para este projeto seriam:
