@@ -1,4 +1,4 @@
-# Análise RFM com Python para Farmácia - Meu Projeto de Portfolio
+# Análise RFM com Python para Farmácia
 
 Olá! Neste projeto, compartilho o processo de desenvolvimento de uma análise de Recência, Frequência e Valor Monetário (RFM) para clientes de uma farmácia. O objetivo principal foi segmentar a base de clientes com base em seu comportamento de compra, possibilitando a criação de estratégias de marketing mais eficazes e personalizadas.
 
