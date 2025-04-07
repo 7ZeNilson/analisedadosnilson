@@ -158,6 +158,10 @@ Através desta análise, consegui visualizar a distribuição dos clientes em re
 
 ![Image](https://github.com/user-attachments/assets/6a0b2985-51f8-4d20-a2d4-cc5dc29cb46a)
 
+<div align="center">
+<img src="https://github.com/user-attachments/assets/6a0b2985-51f8-4d20-a2d4-cc5dc29cb46a.png" width="700px" />
+</div>
+
 
 Os próximos passos lógicos para este projeto seriam:
 
