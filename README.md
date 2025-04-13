@@ -151,7 +151,7 @@ plt.tight_layout()
 plt.show()
 Os boxplots forneceram informações sobre a mediana, quartis e possíveis outliers para cada métrica, ajudando a entender a dispersão dos dados.
 
-![Recencia_de_Clientes](https://raw.githubusercontent.com/7ZeNilson/analisedadosnilson/refs/heads/main/img/Recencia_de_Clientes.png)
+![Recencia_de_Clientes](Recencia_de_Clientes.png)
 
 📊 Resultados e Próximos Passos
 Através desta análise, consegui visualizar a distribuição dos clientes em relação à recência de compra, a relação entre a frequência e o valor monetário de suas compras, e a distribuição geral de cada uma das métricas RFM.
