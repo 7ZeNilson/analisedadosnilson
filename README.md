@@ -151,7 +151,7 @@ plt.tight_layout()
 plt.show()
 Os boxplots forneceram informações sobre a mediana, quartis e possíveis outliers para cada métrica, ajudando a entender a dispersão dos dados.
 
-![Recencia_de_Clientes](https://raw.githubusercontent.com/7ZeNilson/analisedadosnilson/main/img/Recencia_de_Clientes.png)
+![Recência de Clientes](https://raw.githubusercontent.com/7ZeNilson/analisedadosnilson/main/img/Recencia_de_Clientes.png)
 
 
 📊 Resultados e Próximos Passos
