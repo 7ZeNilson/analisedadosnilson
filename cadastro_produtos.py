@@ -17,7 +17,7 @@ if 'produtos' not in st.session_state:
 if 'cadastro_id' not in st.session_state:
     st.session_state.cadastro_id = 0
 
-# Função para gerar o PDF em memória
+# Função para gerar PDF
 def gerar_pdf(lista_produtos):
     buffer = BytesIO()
     doc = SimpleDocTemplate(buffer, pagesize=A4)
@@ -28,7 +28,6 @@ def gerar_pdf(lista_produtos):
     elements.append(Paragraph(" ", styles["Normal"]))
 
     if lista_produtos:
-        # Cabeçalhos + dados
         dados = [list(lista_produtos[0].keys())] + [list(prod.values()) for prod in lista_produtos]
         tabela = Table(dados)
         tabela.setStyle(TableStyle([
@@ -61,7 +60,7 @@ else:
     st.markdown("### Cadastro de Produto")
 
     with st.form("form_cadastro"):
-        cid = st.session_state.cadastro_id  # id único por cadastro
+        cid = st.session_state.cadastro_id
 
         codigo = st.text_input("Código do Produto", key=f"codigo_{cid}", placeholder="Código do produto")
         marca = st.text_input("Marca do Produto", key=f"marca_{cid}", placeholder="Marca do Produto")
@@ -71,11 +70,21 @@ else:
         custo = st.number_input("Custo", min_value=0.0, step=0.01, key=f"custo_{cid}")
         obs = st.text_area("OBS", key=f"obs_{cid}", placeholder="Observações")
 
-        col1, col2 = st.columns(2)
+        col1, col2, col3 = st.columns([1, 1, 2])
         with col1:
             cadastrar = st.form_submit_button("Enviar")
         with col2:
             limpar = st.form_submit_button("Limpar")
+        with col3:
+            if st.session_state.produtos:
+                pdf = gerar_pdf(st.session_state.produtos)
+                st.download_button(
+                    label="Download PDF",
+                    data=pdf,
+                    file_name="produtos_cadastrados.pdf",
+                    mime="application/pdf",
+                    key="btn_pdf"
+                )
 
         if cadastrar:
             produto = {
@@ -88,13 +97,13 @@ else:
                 "OBS": obs
             }
             st.session_state.produtos.append(produto)
-            st.session_state.cadastro_id += 1  # atualiza o ID para gerar novos campos limpos
+            st.session_state.cadastro_id += 1
             st.success("✅ Produto cadastrado com sucesso!")
             st.rerun()
 
         elif limpar:
             st.session_state.produtos = []
-            st.session_state.cadastro_id += 1  # força atualização dos campos
+            st.session_state.cadastro_id += 1
             st.warning("⚠️ Todos os produtos foram apagados.")
             st.rerun()
 
@@ -102,12 +111,3 @@ else:
         st.markdown("## Produtos Cadastrados")
         df = pd.DataFrame(st.session_state.produtos)
         st.dataframe(df, use_container_width=True)
-
-        # Gerar PDF para download
-        pdf = gerar_pdf(st.session_state.produtos)
-        st.download_button(
-            label="Download PDF",
-            data=pdf,
-            file_name="produtos_cadastrados.pdf",
-            mime="application/pdf"
-        )
