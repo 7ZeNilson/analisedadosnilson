@@ -16,6 +16,8 @@ if 'produtos' not in st.session_state:
     st.session_state.produtos = []
 if 'cadastro_id' not in st.session_state:
     st.session_state.cadastro_id = 0
+if 'pdf_buffer' not in st.session_state:
+    st.session_state.pdf_buffer = None  # Armazenar o PDF gerado
 
 # Função para gerar PDF
 def gerar_pdf(lista_produtos):
@@ -88,12 +90,14 @@ else:
             }
             st.session_state.produtos.append(produto)
             st.session_state.cadastro_id += 1
+            st.session_state.pdf_buffer = None  # Limpar PDF antigo
             st.success("✅ Produto cadastrado com sucesso!")
             st.rerun()
 
         elif limpar:
             st.session_state.produtos = []
             st.session_state.cadastro_id += 1
+            st.session_state.pdf_buffer = None  # Limpar PDF ao limpar os produtos
             st.warning("⚠️ Todos os produtos foram apagados.")
             st.rerun()
 
@@ -103,10 +107,14 @@ else:
         df = pd.DataFrame(st.session_state.produtos)
         st.dataframe(df, use_container_width=True)
 
-        pdf = gerar_pdf(st.session_state.produtos)
+        # Gerar o PDF apenas uma vez e armazenar no estado
+        if st.session_state.pdf_buffer is None:
+            st.session_state.pdf_buffer = gerar_pdf(st.session_state.produtos)
+
+        # Botão de download com PDF estável
         st.download_button(
             label="📄 Download PDF",
-            data=pdf,
+            data=st.session_state.pdf_buffer,
             file_name="produtos_cadastrados.pdf",
             mime="application/pdf",
             key="btn_pdf"
