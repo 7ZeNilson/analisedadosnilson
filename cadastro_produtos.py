@@ -10,7 +10,7 @@ if 'logado' not in st.session_state:
 if 'produtos' not in st.session_state:
     st.session_state.produtos = []
 
-# Login simples (sem validação)
+# Tela de Login
 if not st.session_state.logado:
     st.subheader("Login")
     email = st.text_input("E-mail")
@@ -18,55 +18,46 @@ if not st.session_state.logado:
     if st.button("Entrar"):
         st.session_state.logado = True
         st.rerun()
-else:
-    st.success("Login efetuado! Cadastre os produtos abaixo:")
 
-    # Formulário de cadastro
+# Tela de Cadastro (após login)
+else:
+    st.success("Login efetuado com sucesso!")
+    st.markdown("### Cadastro de Produto")
+
     with st.form("form_cadastro"):
-        codigo = st.text_input("Código")
-        marca = st.text_input("Marca")
-        tipo = st.text_input("Tipo")
-        categoria = st.text_input("Categoria")
+        codigo = st.text_input("Código do Produto", placeholder="Código do produto")
+        marca = st.text_input("Marca do Produto", placeholder="Marca do Produto")
+        tipo = st.text_input("Tipo do Produto", placeholder="Tipo do Produto")
+        categoria = st.text_input("Categoria do Produto", placeholder="Categoria do Produto")
         preco_unitario = st.number_input("Preço Unitário", min_value=0.0, step=0.01)
         custo = st.number_input("Custo", min_value=0.0, step=0.01)
-        obs = st.text_area("Observações")
+        obs = st.text_area("OBS", placeholder="Observações")
 
-        submitted = st.form_submit_button("Cadastrar Produto")
-        if submitted:
+        col1, col2 = st.columns(2)
+        with col1:
+            cadastrar = st.form_submit_button("Enviar")
+        with col2:
+            limpar = st.form_submit_button("Limpar")
+
+        if cadastrar:
             produto = {
                 "Código": codigo,
                 "Marca": marca,
                 "Tipo": tipo,
                 "Categoria": categoria,
-                "Preço Unitário": preco_unitario,
+                "Preço Un.": preco_unitario,
                 "Custo": custo,
-                "Observações": obs
+                "OBS": obs
             }
             st.session_state.produtos.append(produto)
-            st.success("Produto cadastrado com sucesso!")
+            st.success("✅ Produto cadastrado com sucesso!")
 
-    # Ações extras
-    col1, col2 = st.columns(2)
-
-    with col1:
-        if st.button("Ver Produtos Cadastrados"):
-            if st.session_state.produtos:
-                st.subheader("Produtos Cadastrados")
-                df = pd.DataFrame(st.session_state.produtos)
-                st.dataframe(df, use_container_width=True)
-            else:
-                st.info("Nenhum produto cadastrado.")
-
-    with col2:
-        if st.button("Limpar Todos os Produtos"):
+        elif limpar:
             st.session_state.produtos = []
-            st.warning("Todos os produtos foram apagados.")
+            st.warning("⚠️ Todos os produtos foram apagados.")
 
-    # Botão de logout
-    if st.button("Sair"):
-        st.session_state.logado = False
-        st.rerun()
-
-# Link ilustrativo
-st.markdown("---")
-st.markdown("[Link de teste: https://7zenilson.local](https://7zenilson.local) *(ilustrativo)*")
+    # Exibir os produtos cadastrados
+    if st.session_state.produtos:
+        st.markdown("## Produtos Cadastrados")
+        df = pd.DataFrame(st.session_state.produtos)
+        st.dataframe(df, use_container_width=True)
