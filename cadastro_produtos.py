@@ -9,6 +9,16 @@ if 'logado' not in st.session_state:
     st.session_state.logado = False
 if 'produtos' not in st.session_state:
     st.session_state.produtos = []
+if 'form_data' not in st.session_state:
+    st.session_state.form_data = {
+        "codigo": "",
+        "marca": "",
+        "tipo": "",
+        "categoria": "",
+        "preco_unitario": 0.0,
+        "custo": 0.0,
+        "obs": ""
+    }
 
 # Tela de Login
 if not st.session_state.logado:
@@ -19,19 +29,49 @@ if not st.session_state.logado:
         st.session_state.logado = True
         st.rerun()
 
-# Tela de Cadastro (após login)
+# Tela de Cadastro
 else:
     st.success("Login efetuado com sucesso!")
     st.markdown("### Cadastro de Produto")
 
     with st.form("form_cadastro"):
-        codigo = st.text_input("Código do Produto", placeholder="Código do produto")
-        marca = st.text_input("Marca do Produto", placeholder="Marca do Produto")
-        tipo = st.text_input("Tipo do Produto", placeholder="Tipo do Produto")
-        categoria = st.text_input("Categoria do Produto", placeholder="Categoria do Produto")
-        preco_unitario = st.number_input("Preço Unitário", min_value=0.0, step=0.01)
-        custo = st.number_input("Custo", min_value=0.0, step=0.01)
-        obs = st.text_area("OBS", placeholder="Observações")
+        st.session_state.form_data["codigo"] = st.text_input(
+            "Código do Produto", 
+            value=st.session_state.form_data["codigo"], 
+            placeholder="Código do produto"
+        )
+        st.session_state.form_data["marca"] = st.text_input(
+            "Marca do Produto", 
+            value=st.session_state.form_data["marca"], 
+            placeholder="Marca do Produto"
+        )
+        st.session_state.form_data["tipo"] = st.text_input(
+            "Tipo do Produto", 
+            value=st.session_state.form_data["tipo"], 
+            placeholder="Tipo do Produto"
+        )
+        st.session_state.form_data["categoria"] = st.text_input(
+            "Categoria do Produto", 
+            value=st.session_state.form_data["categoria"], 
+            placeholder="Categoria do Produto"
+        )
+        st.session_state.form_data["preco_unitario"] = st.number_input(
+            "Preço Unitário", 
+            min_value=0.0, 
+            step=0.01, 
+            value=st.session_state.form_data["preco_unitario"]
+        )
+        st.session_state.form_data["custo"] = st.number_input(
+            "Custo", 
+            min_value=0.0, 
+            step=0.01, 
+            value=st.session_state.form_data["custo"]
+        )
+        st.session_state.form_data["obs"] = st.text_area(
+            "OBS", 
+            value=st.session_state.form_data["obs"], 
+            placeholder="Observações"
+        )
 
         col1, col2 = st.columns(2)
         with col1:
@@ -41,22 +81,43 @@ else:
 
         if cadastrar:
             produto = {
-                "Código": codigo,
-                "Marca": marca,
-                "Tipo": tipo,
-                "Categoria": categoria,
-                "Preço Un.": preco_unitario,
-                "Custo": custo,
-                "OBS": obs
+                "Código": st.session_state.form_data["codigo"],
+                "Marca": st.session_state.form_data["marca"],
+                "Tipo": st.session_state.form_data["tipo"],
+                "Categoria": st.session_state.form_data["categoria"],
+                "Preço Un.": st.session_state.form_data["preco_unitario"],
+                "Custo": st.session_state.form_data["custo"],
+                "OBS": st.session_state.form_data["obs"]
             }
             st.session_state.produtos.append(produto)
             st.success("✅ Produto cadastrado com sucesso!")
 
+            # Limpa os campos
+            st.session_state.form_data = {
+                "codigo": "",
+                "marca": "",
+                "tipo": "",
+                "categoria": "",
+                "preco_unitario": 0.0,
+                "custo": 0.0,
+                "obs": ""
+            }
+            st.rerun()
+
         elif limpar:
             st.session_state.produtos = []
             st.warning("⚠️ Todos os produtos foram apagados.")
+            st.session_state.form_data = {
+                "codigo": "",
+                "marca": "",
+                "tipo": "",
+                "categoria": "",
+                "preco_unitario": 0.0,
+                "custo": 0.0,
+                "obs": ""
+            }
+            st.rerun()
 
-    # Exibir os produtos cadastrados
     if st.session_state.produtos:
         st.markdown("## Produtos Cadastrados")
         df = pd.DataFrame(st.session_state.produtos)
