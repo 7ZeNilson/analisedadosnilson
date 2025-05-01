@@ -70,21 +70,11 @@ else:
         custo = st.number_input("Custo", min_value=0.0, step=0.01, key=f"custo_{cid}")
         obs = st.text_area("OBS", key=f"obs_{cid}", placeholder="Observações")
 
-        col1, col2, col3 = st.columns([1, 1, 2])
+        col1, col2 = st.columns(2)
         with col1:
             cadastrar = st.form_submit_button("Enviar")
         with col2:
             limpar = st.form_submit_button("Limpar")
-        with col3:
-            if st.session_state.produtos:
-                pdf = gerar_pdf(st.session_state.produtos)
-                st.download_button(
-                    label="Download PDF",
-                    data=pdf,
-                    file_name="produtos_cadastrados.pdf",
-                    mime="application/pdf",
-                    key="btn_pdf"
-                )
 
         if cadastrar:
             produto = {
@@ -107,7 +97,17 @@ else:
             st.warning("⚠️ Todos os produtos foram apagados.")
             st.rerun()
 
+    # Exibe tabela e botão de download após o formulário
     if st.session_state.produtos:
         st.markdown("## Produtos Cadastrados")
         df = pd.DataFrame(st.session_state.produtos)
         st.dataframe(df, use_container_width=True)
+
+        pdf = gerar_pdf(st.session_state.produtos)
+        st.download_button(
+            label="📄 Download PDF",
+            data=pdf,
+            file_name="produtos_cadastrados.pdf",
+            mime="application/pdf",
+            key="btn_pdf"
+        )
